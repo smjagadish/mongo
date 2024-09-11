@@ -9,7 +9,7 @@ import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 @AllArgsConstructor
 @Builder
 @BsonDiscriminator(value="radioEss",key="_cls_radio")
-public class radioEss implements radioDeploy {
+public class radioEss extends radioDeploy {
     private String mode;
     private int max_bw;
     private int min_bw;

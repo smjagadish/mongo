@@ -8,6 +8,8 @@ import org.DataImpl.newRadio;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import static com.mongodb.client.model.Sorts.ascending;
+
 public class trialSites {
     MongoClient client;
 
@@ -97,6 +99,27 @@ public class trialSites {
         catch(Exception e)
         {
             // do nothing
+        }
+    }
+    public void fetchSortedDoc()
+    {
+        MongoCursor<newRadio> cursor = null;
+        try {
+            cursor = client.getDatabase("local").getCollection("trial_sites", newRadio.class).find()
+                    .sort(ascending("radio_max_bw")).cursor();
+            System.out.println("printing sorted docs");
+            while(cursor.hasNext())
+            {
+                System.out.println(cursor.next().toString());
+            }
+        }
+        catch(Exception e)
+        {
+            // do nothing
+        }
+        finally {
+            if(cursor!=null)
+                cursor.close();
         }
     }
 }

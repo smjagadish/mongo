@@ -12,7 +12,7 @@ import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 @NoArgsConstructor
 @Builder
 @BsonDiscriminator(value = "radioSuMimo", key = "_cls_radio")
-public class radioSuMimo implements radioDeploy {
+public class radioSuMimo extends radioDeploy {
     private String mode;
     private int max_bw;
     private int min_bw;
