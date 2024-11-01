@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import org.DataImpl.sampleColl;
 import org.bson.Document;
 
 public class sampleRetriever {
@@ -21,6 +22,7 @@ public class sampleRetriever {
             cursor = this.database.getCollection("sampleCollection")
                     .find(Filters.empty())
                     .cursor();
+
             while(cursor.hasNext())
             {
                 System.out.println(cursor.next().toJson());

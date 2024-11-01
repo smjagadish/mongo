@@ -33,7 +33,7 @@ public class userTrackerGet {
                     .projection(Projections.fields(Projections.excludeId())).cursor();
             while (cursor.hasNext())
             {
-              // int val =  cursor.next().getPermissions().getData()[0] ;
+              //int val =  cursor.next().getPermissions().getData()[0] ;
                 // val = val & 0xFF;
                 System.out.println(cursor.next().toString());
             }

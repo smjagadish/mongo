@@ -19,12 +19,20 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>5.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-crypt -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-crypt</artifactId>
+            <version>1.11.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

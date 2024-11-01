@@ -3,6 +3,7 @@ package org.App;
 import com.mongodb.client.MongoClient;
 import org.DataAggregator.*;
 import org.DataCreator.*;
+import org.DataEncryptionCreator.DataEncryption;
 import org.DataImpl.*;
 import org.DataModifier.locationUpdator;
 import org.DataModifier.parksUpdater;
@@ -13,16 +14,21 @@ import org.DatabaseClient.Client;
 import org.DataRetriever.*;
 import org.DataStreamer.streamWatcher;
 import org.DataUtils.dataSort;
-import org.IndexCreator.createIndices;
+import org.DatabaseEncryptionProvider.dataKeyProvider;
+import org.FileProcessor.creator;
+import org.FileProcessor.processor;
+import org.FileProcessor.reader;
+import org.IndexManager.createIndices;
+import org.IndexManager.removeIndices;
 import org.bson.BsonBinarySubType;
 import org.bson.BsonDateTime;
 import org.bson.types.Binary;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import org.DatabaseEncryptedClient.encryptionClient;
 
 public class appStart {
     public static void main(String[] args) {
@@ -51,11 +57,43 @@ public class appStart {
         doGraphLookupJob(client);
         doUserTrackerJob(client);
         doCreateIndex(client);
+        doIndexJob(client);
         doSampleCollectionJob(client);
         doArrayOpsCollectionJob(client);
+        doFileJob(client);
+        doEncryptionJob();
         System.out.println("Application terminated");
 
     }
+
+    private static void doEncryptionJob() {
+        MongoClient client = encryptionClient.encryptionClientHelper.getEncryptionClient();
+        dataKeyProvider prov = new dataKeyProvider(client);
+        DataEncryption encr = new DataEncryption(client,prov);
+        encr.doEncryption();
+    }
+
+    private static void doFileJob(MongoClient client) {
+        creator file_obj = new creator(client);
+        //file_obj.createFile(100);
+        file_obj.readFileMetadata();
+        reader rd = new reader(client);
+        // rd.downloadFile("mystream");
+       // rd.streamFile("mystream");
+        processor pr = new processor(client);
+       // pr.renameFile("mystream","mynewstream");
+    }
+
+    private static void doIndexJob(MongoClient client) {
+        doCreateIndex(client);
+        doRemoveIndex(client);
+    }
+
+    private static void doRemoveIndex(MongoClient client) {
+        removeIndices ridx = new removeIndices(client);
+        ridx.cleanupIndices();
+    }
+
 
     private static void doArrayOpsCollectionJob(MongoClient client) {
         arrayOpsCollCreator creator = new arrayOpsCollCreator(client);
@@ -89,6 +127,8 @@ public class appStart {
         createIndices idxCreator = new createIndices (client);
         idxCreator.addIndex();
         idxCreator.addTextIndex();
+        idxCreator.addMultiKeyIndex();
+        idxCreator.addCompoundIndex();
         idxCreator.showIndex();
     }
 
