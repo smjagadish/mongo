@@ -3,7 +3,7 @@ name: TrustyPkg Dependency Check
 on:
   push:
     branches:
-      - main
+      - drb1
 
 # Required for the action to post comments to pull requests
 permissions:
