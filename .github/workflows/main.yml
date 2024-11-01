@@ -1,0 +1,26 @@
+name: TrustyPkg Dependency Check
+
+on:
+  push:
+    branches:
+      - main
+
+# Required for the action to post comments to pull requests
+permissions:
+  contents: write
+
+jobs:
+  trusty_pkg_check:
+    runs-on: ubuntu-latest
+    name: Check Dependencies with TrustyPkg
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: TrustyPkg Action
+        uses: stacklok/trusty-action@v0.0.7
+        with:
+          global_threshold: 5
+          provenance_threshold: 5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
